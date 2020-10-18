@@ -6,13 +6,16 @@ import java.io.InputStreamReader;
 
 //Class name
 public class Donor {
-	
+
+	//Static variable
+	static int donorID = 0;
+
 	//Data members
 	protected String donorName, gender, address, bloodGroup;
 	int age, lastDonation, counter = 0;
-	
+
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	
+
 	//Default Constructor
 	Donor()
 	{
@@ -22,7 +25,7 @@ public class Donor {
 		address = null;
 		age = 0;
 	}
-	
+
 	//Parameterized Constructor
 	Donor(String name, String  sex, String  bloodgroup, String  add, int age)
 	{
@@ -32,11 +35,24 @@ public class Donor {
 		address = add;
 		age = age;
 	}
+
+	//Static block
+	static
+	{
+		System.out.println("***WELCOME TO BLOOD BANK MANAGEMENT SYSTEM***");
+	}
 	
+	//Static method
+	static int assignDonorId()
+	{
+		donorID++;
+		return donorID;
+	}
+
 	//Member function with Access specifier
 	protected void getDonorData() throws IOException
 	{
-		
+
 		System.out.println("Enter donor name:");
 		donorName = br.readLine();
 		System.out.println("Enter donor's gender:");
@@ -48,7 +64,7 @@ public class Donor {
 		System.out.println("Enter donor's age:");
 		age = Integer.parseInt(br.readLine());
 	}
-	
+
 	protected void enterDonorDetails() throws IOException
 	{
 		Boolean tmp = false;
@@ -59,14 +75,14 @@ public class Donor {
 			tmp = quickCheckUp(age);
 		else
 			tmp = quickCheckUp(age, lastDonation);
-		
+
 		if(tmp == false && counter < 3)
 		{
 			counter++;
 			enterDonorDetails();
 		}
 	}
-	
+
 	protected boolean quickCheckUp(int age) throws IOException
 	{
 		if(age < 18)
@@ -83,7 +99,7 @@ public class Donor {
 		}
 		return true;
 	}
-	
+
 	//Function overloading
 	protected boolean quickCheckUp(int age, int lastDonation) throws IOException
 	{
@@ -106,49 +122,66 @@ public class Donor {
 		}
 		return true;
 	}
-	
+
 	//Member function with Access specifier
 	protected void printDonorDetails()
-		{
-			System.out.println("-----DONOR DETAILS-----");
-			System.out.println("Donor Name: "+ donorName);
-			System.out.println("Gender: "+gender);
-			System.out.println("Blood Group: "+bloodGroup);
-			System.out.println("Age:" +age);
-			System.out.println("Address:" +address);
-		}
+	{
+		System.out.println("-----DONOR DETAILS-----");
+		System.out.println("Donor ID: "+ assignDonorId());
+		System.out.println("Donor Name: "+ donorName);
+		System.out.println("Gender: "+gender);
+		System.out.println("Blood Group: "+bloodGroup);
+		System.out.println("Age:" +age);
+		System.out.println("Address:" +address);
+	}
 	
+	//Nested static class
+	public static class bloodDonationConditions
+	{
+	    public static void listBloodDonationConditions()
+	    {
+	        System.out.println("Person with the following conditions are not allowed to donate blood: ");
+	        System.out.println(" - Cancer");
+	        System.out.println(" - Cardiac disease ");
+	        System.out.println(" - HIV infection");
+	        System.out.println(" - Chronic alcoholism");
+	        System.out.println(" - Piercing and Tattooing");
+	    }
+	}
+
 	public static void main(String[] args) throws IOException {
-		int choice, i = 0;
-		
+		int choice,i=0;
+
 		BufferedReader ch = new BufferedReader(new InputStreamReader(System.in));
+		
+		bloodDonationConditions.listBloodDonationConditions();
 		
 		// Array of objects
 		Donor[] bloodDonor = new Donor[2] ;
-		 
+
 		bloodDonor[0] = new Donor();
 		bloodDonor[1] = new Donor();
-		
+
 		while(i<3)
 		{
-		System.out.println("*** MENU***");
-		System.out.println("1.) Add Donor");
-		System.out.println("2.) Print Donor");
-		System.out.println("Enter your choice:");
-		choice=Integer.parseInt(ch.readLine());
-		switch(choice)
-		{
+			System.out.println("*** MENU***");
+			System.out.println("1.) Add Donor");
+			System.out.println("2.) Print Donor Details");
+			System.out.println("Enter your choice:");
+			choice=Integer.parseInt(ch.readLine());
+			switch(choice)
+			{
 			case 1:
 				bloodDonor[0].enterDonorDetails();
 				bloodDonor[1].enterDonorDetails();
 				break;
-				
+
 			case 2:
 				bloodDonor[0].printDonorDetails();
 				bloodDonor[1].printDonorDetails();
 				break;
-				
-		}
+
+			}
 		}
 
 	}
