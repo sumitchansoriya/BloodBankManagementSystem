@@ -8,7 +8,10 @@ import java.io.InputStreamReader;
 public class Donor {
 
 	//Static variable
-	static int donorID = 0;
+	static int id = 0;
+	
+	//String Buffer
+	StringBuffer donorID = new StringBuffer("BBMS"); 
 
 	//Data members
 	protected String donorName, gender, address, bloodGroup;
@@ -29,11 +32,11 @@ public class Donor {
 	//Parameterized Constructor
 	Donor(String name, String  sex, String  bloodgroup, String  add, int age)
 	{
-		donorName = name;
-		gender = sex;
-		bloodGroup = bloodgroup;
-		address = add;
-		age = age;
+		this.donorName = name;
+		this.gender = sex;
+		this.bloodGroup = bloodgroup;
+		this.address = add;
+		this.age = age;
 	}
 
 	//Static block
@@ -41,12 +44,19 @@ public class Donor {
 	{
 		System.out.println("***WELCOME TO BLOOD BANK MANAGEMENT SYSTEM***");
 	}
-	
+
 	//Static method
-	static int assignDonorId()
+	static void totalDonorCount()
 	{
-		donorID++;
-		return donorID;
+		System.out.println("Total registered donor count is "+id);
+	}
+	
+	void assignDonorId()
+	{
+		id++;
+		//donorID.append(String.format("%04d", id));
+		//donorID.insert(4, String.format("%04d", id)); 
+		donorID.replace(4, 8, String.format("%04d", id));
 	}
 
 	//Member function with Access specifier
@@ -81,6 +91,8 @@ public class Donor {
 			counter++;
 			enterDonorDetails();
 		}
+		else if(counter >= 3)
+			System.out.println("Limit Exceeded! Try again.");
 	}
 
 	protected boolean quickCheckUp(int age) throws IOException
@@ -127,61 +139,83 @@ public class Donor {
 	protected void printDonorDetails()
 	{
 		System.out.println("-----DONOR DETAILS-----");
-		System.out.println("Donor ID: "+ assignDonorId());
+		System.out.println("Donor ID: "+ donorID);
 		System.out.println("Donor Name: "+ donorName);
 		System.out.println("Gender: "+gender);
 		System.out.println("Blood Group: "+bloodGroup);
 		System.out.println("Age:" +age);
 		System.out.println("Address:" +address);
 	}
-	
+
 	//Nested static class
 	public static class bloodDonationConditions
 	{
-	    public static void listBloodDonationConditions()
-	    {
-	        System.out.println("Person with the following conditions are not allowed to donate blood: ");
-	        System.out.println(" - Cancer");
-	        System.out.println(" - Cardiac disease ");
-	        System.out.println(" - HIV infection");
-	        System.out.println(" - Chronic alcoholism");
-	        System.out.println(" - Piercing and Tattooing");
-	    }
+		public static void listBloodDonationConditions()
+		{
+			System.out.println("Person with the following conditions are not allowed to donate blood: ");
+			System.out.println(" - Cancer");
+			System.out.println(" - Cardiac disease ");
+			System.out.println(" - HIV infection");
+			System.out.println(" - Chronic alcoholism");
+			System.out.println(" - Piercing and Tattooing");
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
-		int choice,i=0;
+		int choice,count = 0;
 
 		BufferedReader ch = new BufferedReader(new InputStreamReader(System.in));
-		
+
 		bloodDonationConditions.listBloodDonationConditions();
-		
+
 		// Array of objects
-		Donor[] bloodDonor = new Donor[2] ;
+		Donor[] bloodDonor = new Donor[5] ;
 
-		bloodDonor[0] = new Donor();
-		bloodDonor[1] = new Donor();
-
-		while(i<3)
+		while(count < 5)
 		{
 			System.out.println("*** MENU***");
-			System.out.println("1.) Add Donor");
+			System.out.println("1.) Add a new Donor");
 			System.out.println("2.) Print Donor Details");
+			System.out.println("3.) Total Donors count");
+			System.out.println("4.) Exit");
 			System.out.println("Enter your choice:");
 			choice=Integer.parseInt(ch.readLine());
 			switch(choice)
 			{
 			case 1:
-				bloodDonor[0].enterDonorDetails();
-				bloodDonor[1].enterDonorDetails();
+				bloodDonor[id] = new Donor();
+				bloodDonor[id].enterDonorDetails();
+				bloodDonor[id].assignDonorId();
 				break;
 
 			case 2:
-				bloodDonor[0].printDonorDetails();
-				bloodDonor[1].printDonorDetails();
+				if(id == 0)
+				{
+					System.out.println("No Donor details found!");
+				}
+				else
+				{
+					for(int i=0; i < id; i++)
+					{
+						bloodDonor[i].printDonorDetails();
+						System.out.println("---------------------");
+					}
+				}
 				break;
 
+			case 3:
+				totalDonorCount();
+				break;
+				
+			case 4:
+				System.exit(0);
+				break;
+
+			default:
+				System.out.println("INVALID INPUT!");
+				break;
 			}
+			count++;
 		}
 
 	}
