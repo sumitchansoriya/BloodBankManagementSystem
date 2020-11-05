@@ -3,13 +3,14 @@ package Assignments;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.IllegalFormatException;
 
 //Class name
 public class Donor {
 
 	//Static variable
 	static int id = 0;
-	
+
 	//String Buffer
 	StringBuffer donorID = new StringBuffer("BBMS"); 
 
@@ -22,11 +23,11 @@ public class Donor {
 	//Default Constructor
 	Donor()
 	{
-		donorName = null;
-		gender = null;
-		bloodGroup = null;
-		address = null;
-		age = 0;
+		this.donorName = null;
+		this.gender = null;
+		this.bloodGroup = null;
+		this.address = null;
+		this.age = 0;
 	}
 
 	//Parameterized Constructor
@@ -42,7 +43,9 @@ public class Donor {
 	//Static block
 	static
 	{
-		System.out.println("***WELCOME TO BLOOD BANK MANAGEMENT SYSTEM***");
+		System.out.println("-------------------------------------------------");
+		System.out.println("-----WELCOME TO BLOOD BANK MANAGEMENT SYSTEM-----");
+		System.out.println("-------------------------------------------------");
 	}
 
 	//Static method
@@ -50,7 +53,7 @@ public class Donor {
 	{
 		System.out.println("Total registered donor count is "+id);
 	}
-	
+
 	void assignDonorId()
 	{
 		id++;
@@ -104,7 +107,7 @@ public class Donor {
 		}
 		System.out.println("Do you have a tattoo, High BP or Diabetis? Y/N");
 		char ch = (char)br.read();
-		if(ch == 'Y')
+		if(Character.toUpperCase(ch) == 'Y')
 		{
 			System.out.println("Sorry! You cannot donate blood.");
 			return false;
@@ -152,6 +155,7 @@ public class Donor {
 	{
 		public static void listBloodDonationConditions()
 		{
+			System.out.println("-------------------------------------------------");
 			System.out.println("Person with the following conditions are not allowed to donate blood: ");
 			System.out.println(" - Cancer");
 			System.out.println(" - Cardiac disease ");
@@ -162,62 +166,81 @@ public class Donor {
 	}
 
 	public static void main(String[] args) throws IOException {
-		int choice,count = 0;
-
-		BufferedReader ch = new BufferedReader(new InputStreamReader(System.in));
-
-		bloodDonationConditions.listBloodDonationConditions();
-
-		// Array of objects
-		Donor[] bloodDonor = new Donor[5] ;
-
-		while(count < 5)
+		try
 		{
-			System.out.println("*** MENU***");
-			System.out.println("1.) Add a new Donor");
-			System.out.println("2.) Print Donor Details");
-			System.out.println("3.) Total Donors count");
-			System.out.println("4.) Exit");
-			System.out.println("Enter your choice:");
-			choice=Integer.parseInt(ch.readLine());
-			switch(choice)
+			int choice,count = 0;
+
+			if (args.length > 0) 
+				System.out.println("Hello "+args[0]+"...");
+			else
+				System.out.println("Hello User..."); 
+
+			BufferedReader ch = new BufferedReader(new InputStreamReader(System.in));
+
+			bloodDonationConditions.listBloodDonationConditions();
+
+			// Array of objects
+			Donor[] bloodDonor = new Donor[5] ;
+
+			while(count < 5)
 			{
-			case 1:
-				bloodDonor[id] = new Donor();
-				bloodDonor[id].enterDonorDetails();
-				bloodDonor[id].assignDonorId();
-				break;
+				System.out.println("-------------------------------------------------");
+				System.out.println("*** MENU***");
+				System.out.println("1.) Add a new Donor");
+				System.out.println("2.) Print Donor Details");
+				System.out.println("3.) Total Donors count");
+				System.out.println("4.) Exit");
+				System.out.println("Enter your choice:");
+				choice=Integer.parseInt(ch.readLine());
+				switch(choice)
+				{
+				case 1:
+					bloodDonor[id] = new Donor();
+					bloodDonor[id].enterDonorDetails();
+					bloodDonor[id].assignDonorId();
+					break;
 
-			case 2:
-				if(id == 0)
-				{
-					System.out.println("No Donor details found!");
-				}
-				else
-				{
-					for(int i=0; i < id; i++)
+				case 2:
+					if(id == 0)
 					{
-						bloodDonor[i].printDonorDetails();
-						System.out.println("---------------------");
+						System.out.println("No Donor details found!");
 					}
+					else
+					{
+						for(int i=0; i < id; i++)
+						{
+							bloodDonor[i].printDonorDetails();
+							System.out.println("---------------------");
+						}
+					}
+					break;
+
+				case 3:
+					totalDonorCount();
+					break;
+
+				case 4:
+					System.exit(0);
+					break;
+
+				default:
+					System.out.println("INVALID INPUT!");
+					break;
 				}
-				break;
-
-			case 3:
-				totalDonorCount();
-				break;
-				
-			case 4:
-				System.exit(0);
-				break;
-
-			default:
-				System.out.println("INVALID INPUT!");
-				break;
+				count++;
 			}
-			count++;
+		} 
+		catch(Exception E)
+		{
+			System.out.println("Operation Failed! Problem Occured.");
+			System.out.println("Contact your Administrator/Developer.");
+			System.out.println(System.err);
+			System.out.println(E.getMessage());
 		}
-
+		finally
+		{
+			System.out.println("Thanks for using BBMS Portal!");
+		}
 	}
 
 }
