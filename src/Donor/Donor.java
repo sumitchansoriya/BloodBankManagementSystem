@@ -1,12 +1,14 @@
-package Assignments;
+package Donor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.IllegalFormatException;
 
+import BloodBank.Hospital;
+
 //Class name
-public class Donor {
+public class Donor extends Hospital{
 
 	//Static variable
 	static int id = 0;
