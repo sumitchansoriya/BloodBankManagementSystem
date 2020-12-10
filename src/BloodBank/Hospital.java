@@ -3,31 +3,18 @@ package BloodBank;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-class NoBloodException extends Exception 
-{ 
-    public NoBloodException(String s) 
-    { 
-        super(s); 
-    } 
-}
-
-class BloodStorageFullException extends Exception 
-{ 
-    public BloodStorageFullException(String s) 
-    { 
-        super(s); 
-    } 
-}
+import BBException.*;
+import Donor.Donor;
 
 
-public class Hospital implements BloodBank {
+public class Hospital extends Donor implements BloodBank {
 	
 	Map<String, Double> bloodStock = new HashMap(); 
     
     
 	public Hospital() {
-		// TODO Auto-generated constructor stub
+		
+		super();
 		bloodStock.put("A+", 0.00);
 		bloodStock.put("B+", 0.00);
 		bloodStock.put("AB+", 0.00);
@@ -65,15 +52,18 @@ public class Hospital implements BloodBank {
              
         } 
 	}
+	
+	public void welcome(String user)
+	{
+		System.out.println("Welcome "+user+" ...");
+	}
 
-	@Override
 	public void bloodStockStatus() {
 		System.out.println(bloodStock);
 	}
 
 	public static void main(String[] args)  throws IOException{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }

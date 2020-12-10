@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.IllegalFormatException;
 
-//import BloodBank.Hospital;
+import BloodBank.Hospital;
 
 //Class name
 public class Donor{
@@ -23,7 +23,7 @@ public class Donor{
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	//Default Constructor
-	Donor()
+	protected Donor()
 	{
 		this.donorName = null;
 		this.gender = null;
@@ -59,8 +59,6 @@ public class Donor{
 	void assignDonorId()
 	{
 		id++;
-		//donorID.append(String.format("%04d", id));
-		//donorID.insert(4, String.format("%04d", id)); 
 		donorID.replace(4, 8, String.format("%04d", id));
 	}
 
@@ -145,11 +143,11 @@ public class Donor{
 	{
 		System.out.println("-----DONOR DETAILS-----");
 		System.out.println("Donor ID: "+ donorID);
-		System.out.println("Donor Name: "+ donorName);
-		System.out.println("Gender: "+gender);
-		System.out.println("Blood Group: "+bloodGroup);
-		System.out.println("Age:" +age);
-		System.out.println("Address:" +address);
+		System.out.println("Donor Name: "+ this.donorName);
+		System.out.println("Gender: "+ this.gender);
+		System.out.println("Blood Group: "+ this.bloodGroup);
+		System.out.println("Age:" + this.age);
+		System.out.println("Address:" + this.address);
 	}
 
 	//Nested static class
